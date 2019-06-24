@@ -17,10 +17,31 @@ namespace Xamarin.Forms.Core.UITests
 
 		public static AppRect ScreenBounds { get; set; }
 
+		static int s_testsrun;
+		const int ConsecutiveTestLimit = 10;
+
+		// Until we get more of our memory leak issues worked out, restart the app 
+		// after a specified number of tests so we don't get bogged down in GC 
+		// (or booted by jetsam)
+		public void EnsureMemory()
+		{
+			s_testsrun += 1;
+
+			if (s_testsrun >= ConsecutiveTestLimit)
+			{
+				s_testsrun = 0;
+
+				LaunchApp();
+
+				FixtureSetup();
+			}
+		}
+
+
 		[SetUp]
 		protected virtual void TestSetup()
 		{
-			FixtureSetup();
+			EnsureMemory();
 		}
 
 		[TearDown]
