@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using NUnit.Framework;
 using Xamarin.Forms.Controls;
-using Xamarin.Forms.Core.UITests.Xamarin.Forms.Core.UITests;
 using Xamarin.UITest;
 using Xamarin.UITest.Queries;
 
@@ -110,32 +109,31 @@ namespace Xamarin.Forms.Core.UITests
 #endif
 		}
 	}
-
+}
 #if UITEST
 
-	namespace Xamarin.Forms.Core.UITests
+namespace Xamarin.Forms.Core.UITests
+{
+	using NUnit.Framework;
+
+	[SetUpFixture]
+	public class CoreUITestsSetup
 	{
-		using NUnit.Framework;
-
-		[SetUpFixture]
-		public class CoreUITestsSetup
+		[SetUp]
+		public void RunBeforeAnyTests()
 		{
-			[SetUp]
-			public void RunBeforeAnyTests()
-			{
-				LaunchApp();
-			}
+			LaunchApp();
+		}
 
-			public static void LaunchApp()
-			{
-				BaseTestFixture.App = null;
-				BaseTestFixture.App = AppSetup.Setup();
+		public static void LaunchApp()
+		{
+			BaseTestFixture.App = null;
+			BaseTestFixture.App = AppSetup.Setup();
 
-				BaseTestFixture.App.SetOrientationPortrait();
-				BaseTestFixture.ScreenBounds = BaseTestFixture.App.RootViewRect();
-			}
+			BaseTestFixture.App.SetOrientationPortrait();
+			BaseTestFixture.ScreenBounds = BaseTestFixture.App.RootViewRect();
 		}
 	}
+}
 
 #endif
-}
