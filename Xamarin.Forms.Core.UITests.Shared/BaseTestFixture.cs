@@ -51,9 +51,12 @@ namespace Xamarin.Forms.Core.UITests
 
 		protected abstract void NavigateToGallery();
 
+		protected virtual void FixtureTeardown()
+		{
+		}
+
 		protected virtual void FixtureSetup()
 		{
-			LaunchApp();
 			ResetApp();
 
 			int maxAttempts = 2;
